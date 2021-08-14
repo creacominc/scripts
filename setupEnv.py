@@ -80,7 +80,7 @@ def main():
   if( not (os.path.exists( share ) and os.path.isdir( share )) ):
     logger.fatal( f'share {share} not found or is not a folder.' )
     exit( -1 )
-  folders = ['Documents', 'Desktop' ]
+  folders = ['Documents', 'Desktop', 'Pictures' ]
   for fldr in folders :
     logger.debug( "folder: " + fldr )
     if( args.setup == True ):
