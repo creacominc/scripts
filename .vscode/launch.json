@@ -9,8 +9,27 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: run setupEnv.py --setup",
+            "type": "python",
+            "request": "launch",
+            "program": "./setupEnv.py",
             "console": "integratedTerminal",
-            "args": [ "--setup" ]
+            "args": [
+                "--setup"
+            ]
+        },
+        {
+            "name": "Python: run setupEnv.py --shutdown",
+            "type": "python",
+            "request": "launch",
+            "program": "./setupEnv.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--shutdown"
+            ]
         }
     ]
 }

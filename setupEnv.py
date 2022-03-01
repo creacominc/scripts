@@ -39,6 +39,9 @@ def setupFolder( folder, share ):
   logger.info( f'testing folder: {folder}' )
   for name in os.listdir( folder ):
     if( not ( name[0] == '.' ) ):
+      if ( os.path.islink( folder + '/' + name ) ):
+        logger.warning( f'Found link in folder: {folder}/{name}' )
+        continue
       logger.debug( f'testing file: {folder}/{name}' )
       fullpath = os.path.join( folder, name )
       if( os.path.exists( fullpath ) and os.path.isfile( fullpath ) and not os.path.islink( fullpath ) ):
@@ -56,8 +59,15 @@ def setupFolder( folder, share ):
       continue
     trgname = share + '/' + name
     srcname = folder + '/' + name
+    # check that the link does not already exist
+    if( os.path.islink( trgname ) ):
+      logger.warning( f'Link already exists: {trgname}' )
+      continue
     logger.debug( f'linking {srcname} to {trgname}' )
-    os.symlink( trgname, srcname )
+    try:
+      os.symlink( trgname, srcname )
+    except:
+      logger.warning( f'Failed to link "{srcname}" to "{trgname}"' )
 
 def shutdownFolder( folder ):
   logger = logging.getLogger( __name__ )
@@ -65,7 +75,10 @@ def shutdownFolder( folder ):
   for name in os.listdir( folder ):
     if( os.path.islink( folder + '/' + name ) ):
       logger.debug( f'removing link: {folder} / {name}' )
-      os.unlink( folder + '/' + name )
+      try:
+        os.unlink( folder + '/' + name )
+      except:
+        logger.warning( f'Failed to remove: {folder}/{name}')
 
 def main():
   log_setup()
