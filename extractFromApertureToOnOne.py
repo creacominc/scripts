@@ -44,7 +44,7 @@ for root, dirs, files in os.walk( LIBRARY_LOCATION ):
         if 0 >= counter:
             break
         file_ext = os.path.splitext( fln )[1]
-        if file_ext.upper() in [ ".JPG", ".CR2", ".RW2", ".JPEG" ]:
+        if file_ext.upper() in [ ".JPG", ".CR2", ".RW2", ".JPEG", ".PSD", ".TIFF", ".MP4", ".MOV", ".TIF", ".GIF" ]:
             if fln[:6] != "thumb_":
                 # find the .aplibrary in the path
                 head = root
@@ -79,7 +79,12 @@ for root, dirs, files in os.walk( LIBRARY_LOCATION ):
                 print( f"removing thumbnail: {thumbPath}" )
                 thumbPath.unlink()
                 counter -= 1
-        elif file_ext.upper() in [ ".PLIST", ".APDB", ".DB", ".APALBUM", ".APDETECTED", ".APFOLDER", ".APMASTER", ".APVERSION", ".APVOLUME" ]:
+        elif file_ext.upper() in [ ".PLIST", ".APDB", ".DB", ".APALBUM", ".APDETECTED", ".APFOLDER", ".APMASTER", ".APVERSION", ".APVOLUME", ".DATA", ".APFACENAME", ".APVAULT", ".DB-CONCH", ".APDB-CONCH", ".BAK-CONCH", ".APTEMP-CONCH" ]:
+            trashPath = Path( os.path.join( root, fln ) )
+            print( f"removing trash: {trashPath}" )
+            trashPath.unlink()
+            counter -= 1
+        elif fln in [ "ApertureDatabaseTimestamp", "Apple TV Photo Database", "Photo Database", "lockfile.pid" ]:
             trashPath = Path( os.path.join( root, fln ) )
             print( f"removing trash: {trashPath}" )
             trashPath.unlink()
